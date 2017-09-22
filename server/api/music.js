@@ -1,17 +1,17 @@
 const router = require('express').Router()
 const request = require('request');
-const { Interaction } = require('../db/models');
+const { Fan } = require('../db/models');
 
 router.get('/:night/:fan', (req, res, next) => {
-  Interaction.findOne({
+  Fan.findOne({
     where: {
-      nightId: req.params.night,
-      fanId: req.params.fanId
+      randomId: req.params.fan,
+      nightId: req.params.night
     }
   })
-  .then(interaction => {
-    if (interaction) request('http://coldwine.nyc/stackathon/2.%20Come%20Alive.mp3').pipe(res);
-    else res.status(404).send('download code invalid')
+  .then(fan => {
+    if (fan) request('http://coldwine.nyc/stackathon/2.%20Come%20Alive.mp3').pipe(res);
+    else res.status(404).send('download ID invalid')
   })
   .catch(next)
 });

@@ -1,11 +1,11 @@
 const router = require('express').Router()
-const {User, Night} = require('../db/models')
+const {Artist} = require('../db/models')
 
 router.get('/', (req, res, next) => {
-  User.findAll({
+  Artist.findAll({
     attributes: ['id', 'email']
   })
-    .then(users => res.json(users))
+    .then(artists => res.json(artists))
     .catch(next)
 })
 

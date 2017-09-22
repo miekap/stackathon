@@ -1,12 +1,12 @@
-const User = require('./user');
+const Artist = require('./artist');
 const Night = require('./night');
-const Interaction = require('./interaction');
+const Fan = require('./fan');
 
-Interaction.belongsTo(Night);
-Night.hasMany(Interaction);
+Fan.belongsTo(Night);
+Night.hasMany(Fan);
 
 module.exports = {
-  User,
+  Artist,
   Night,
-  Interaction
+  Fan
 }

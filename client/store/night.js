@@ -1,6 +1,7 @@
 import axios from 'axios'
 import history from '../history'
-import crypto from 'crypto'
+import {getLocation, randomId} from '../functions'
+
 
 const CREATE_NIGHT = 'CREATE_NIGHT'
 const GET_NIGHT = 'GET_NIGHT'
@@ -14,18 +15,32 @@ const removeNight = () => ({type: REMOVE_NIGHT})
 
 export const generateNight = () =>
   dispatch =>
-    axios.post(`/api/night/generate`, {
-      eventId: crypto.randomBytes(4)
-        .toString('base64')
-        .slice(0, 4)
-        .replace(/\+/g, '0')
-    })
-      .then(res => {
-        dispatch(createNight(res.data))
-        history.push('/night')
+    getLocation()
+    .then(res => res.data)
+    .then(res => {
+      return axios.post(`/api/night`, {
+        randomId:  randomId(3),
+        lat: res.location.lat,
+        lng: res.location.lng,
+        accuracy: res.accuracy
       })
-      .catch(error =>
-        dispatch(createNight({error})))
+    })
+    .then(res => {
+      dispatch(createNight(res.data))
+      history.push('/admin')
+    })
+    .catch(error =>
+      dispatch(createNight({error})))
+
+export const retrieveNight = () =>
+  dispatch =>
+    axios.get('/api/night')
+    .then(res => {
+      dispatch(getNight(res.data))
+      history.push(history.location)
+    })
+    .catch(error =>
+      dispatch(getNight({error})))
 
 export default function (state = defaultNight, action) {
   switch (action.type) {

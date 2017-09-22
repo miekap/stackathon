@@ -1,7 +1,7 @@
 const passport = require('passport')
 const router = require('express').Router()
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
-const {User} = require('../db/models')
+const {Artist} = require('../db/models')
 module.exports = router
 
 const googleConfig = {
@@ -15,11 +15,11 @@ const strategy = new GoogleStrategy(googleConfig, (token, refreshToken, profile,
   const name = profile.displayName
   const email = profile.emails[0].value
 
-  User.find({where: {googleId}})
-    .then(user => user
-      ? done(null, user)
-      : User.create({name, email, googleId})
-        .then(user => done(null, user))
+  Artist.find({where: {googleId}})
+    .then(artist => artist
+      ? done(null, artist)
+      : Artist.create({name, email, googleId})
+        .then(artist => done(null, artist))
     )
     .catch(done)
 })
@@ -29,6 +29,6 @@ passport.use(strategy)
 router.get('/', passport.authenticate('google', {scope: 'email'}))
 
 router.get('/oauth2callback', passport.authenticate('google', {
-  successRedirect: '/night',
-  failureRedirect: '/login'
+  successRedirect: '/admin',
+  failureRedirect: '/admin'
 }))

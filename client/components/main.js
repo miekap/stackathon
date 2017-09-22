@@ -17,7 +17,8 @@ const Main = (props) => {
               <Link to='#' onClick={handleClick}>Logout</Link>
             </div>
             : <div>
-              <Link to='/login'>Login</Link>/<Link to='/signup'>Signup</Link>
+              <Link to='/login'>Login</Link>
+              <Link to='/signup'>Signup</Link>
             </div>
         }
       </nav>
@@ -29,7 +30,7 @@ const Main = (props) => {
 
 const mapState = (state) => {
   return {
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.artist.id
   }
 }
 

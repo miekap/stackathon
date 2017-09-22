@@ -1,46 +1,46 @@
 import axios from 'axios'
 import history from '../history'
 
-const GET_USER = 'GET_USER'
-const REMOVE_USER = 'REMOVE_USER'
+const GET_ARTIST = 'GET_ARTIST'
+const REMOVE_ARTIST = 'REMOVE_ARTIST'
 
-const defaultUser = {}
+const defaultArtist = {}
 
-const getUser = user => ({type: GET_USER, user})
-const removeUser = () => ({type: REMOVE_USER})
+const getArtist = artist => ({type: GET_ARTIST, artist})
+const removeArtist = () => ({type: REMOVE_ARTIST})
 
 export const me = () =>
   dispatch =>
     axios.get('/auth/me')
       .then(res =>
-        dispatch(getUser(res.data || defaultUser)))
+        dispatch(getArtist(res.data || defaultArtist)))
       .catch(err => console.log(err))
 
 export const auth = (email, password, method) =>
   dispatch =>
     axios.post(`/auth/${method}`, { email, password })
       .then(res => {
-        dispatch(getUser(res.data))
+        dispatch(getArtist(res.data))
         history.push('/night')
       })
       .catch(error =>
-        dispatch(getUser({error})))
+        dispatch(getArtist({error})))
 
 export const logout = () =>
   dispatch =>
     axios.post('/auth/logout')
       .then(res => {
-        dispatch(removeUser())
-        history.push('/login')
+        dispatch(removeArtist())
+        history.push('/admin')
       })
       .catch(err => console.log(err))
 
-export default function (state = defaultUser, action) {
+export default function (state = defaultArtist, action) {
   switch (action.type) {
-    case GET_USER:
-      return action.user
-    case REMOVE_USER:
-      return defaultUser
+    case GET_ARTIST:
+      return action.artist
+    case REMOVE_ARTIST:
+      return defaultArtist
     default:
       return state
   }

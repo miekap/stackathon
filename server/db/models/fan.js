@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
 
-const Night = db.define('night', {
+const Fan = db.define('fan', {
   randomId: {
     type: Sequelize.STRING,
     unique: true,
@@ -18,4 +18,4 @@ const Night = db.define('night', {
   }
 })
 
-module.exports = Night
+module.exports = Fan

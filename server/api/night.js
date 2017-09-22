@@ -1,16 +1,16 @@
 const router = require('express').Router()
-const {User, Night} = require('../db/models')
-const crypto = require('crypto')
+const {Night} = require('../db/models')
 
 router.get('/', (req, res, next) => {
-  User.findAll({
-    attributes: ['id', 'email']
+  Night.findAll({
+    limit: 1,
+    order: [[ 'createdAt', 'DESC' ]]
   })
-    .then(users => res.json(users))
-    .catch(next)
+  .then(nights => res.send(nights[0]))
+  .catch(next);
 })
 
-router.post('/generate', (req, res, next) => {
+router.post('/', (req, res, next) => {
   Night.create(req.body)
   .then(night => res.status(201).send(night))
   .catch(next);
