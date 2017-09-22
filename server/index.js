@@ -12,17 +12,8 @@ const app = express()
 const socketio = require('socket.io')
 module.exports = app
 
-/**
- * In your development environment, you can keep all of your
- * app's secret API keys in a file called `secrets.js`, in your project
- * root. This file is included in the .gitignore - it will NOT be tracked
- * or show up on Github. On your production server, you can add these
- * keys as environment variables, so that they can still be read by the
- * Node process on process.env
- */
 if (process.env.NODE_ENV !== 'production') require('../secrets')
 
-// passport registration
 passport.serializeUser((user, done) => done(null, user.id))
 passport.deserializeUser((id, done) =>
   db.models.user.findById(id)
@@ -30,16 +21,14 @@ passport.deserializeUser((id, done) =>
     .catch(done))
 
 const createApp = () => {
-  // logging middleware
+
   app.use(morgan('dev'))
 
-  // body parsing middleware
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({ extended: true }))
 
-  // session middleware with passport
   app.use(session({
-    secret: process.env.SESSION_SECRET || 'my best friend is Cody',
+    secret: process.env.SESSION_SECRET || 'a wildly insecure secret',
     store: sessionStore,
     resave: false,
     saveUninitialized: false
@@ -47,19 +36,15 @@ const createApp = () => {
   app.use(passport.initialize())
   app.use(passport.session())
 
-  // auth and api routes
   app.use('/auth', require('./auth'))
   app.use('/api', require('./api'))
 
-  // static file-serving middleware
   app.use(express.static(path.join(__dirname, '..', 'public')))
 
-  // sends index.html
   app.use('*', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public/index.html'))
   })
 
-  // error handling endware
   app.use((err, req, res, next) => {
     console.error(err)
     console.error(err.stack)
@@ -68,20 +53,14 @@ const createApp = () => {
 }
 
 const startListening = () => {
-  // start listening (and create a 'server' object representing our server)
-  const server = app.listen(PORT, () => console.log(`Mixing it up on port ${PORT}`))
+  const server = app.listen(PORT, () => console.log(`Getting that cash on port ${PORT}`))
 
-  // set up our socket control center
   const io = socketio(server)
   require('./socket')(io)
 }
 
 const syncDb = () => db.sync()
 
-// This evaluates as true when this file is run directly from the command line,
-// i.e. when we say 'node server/index.js' (or 'nodemon server/index.js', or 'nodemon server', etc)
-// It will evaluate false when this module is required by another module - for example,
-// if we wanted to require our app in a test spec
 if (require.main === module) {
   sessionStore.sync()
     .then(syncDb)

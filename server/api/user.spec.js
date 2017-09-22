@@ -1,5 +1,3 @@
-/* global describe beforeEach it */
-
 const {expect} = require('chai')
 const request = require('supertest')
 const db = require('../db')
@@ -11,23 +9,23 @@ describe('User routes', () => {
     return db.sync({force: true})
   })
 
-  describe('/api/users/', () => {
-    const codysEmail = 'cody@puppybook.com'
+  describe('/api/user/', () => {
+    const testEmail = 'test@test.com'
 
     beforeEach(() => {
       return User.create({
-        email: codysEmail
+        email: testEmail
       })
     })
 
-    it('GET /api/users', () => {
+    it('GET /api/user', () => {
       return request(app)
-        .get('/api/users')
+        .get('/api/user')
         .expect(200)
         .then(res => {
           expect(res.body).to.be.an('array')
-          expect(res.body[0].email).to.be.equal(codysEmail)
+          expect(res.body[0].email).to.be.equal(testEmail)
         })
     })
-  }) // end describe('/api/users')
-}) // end describe('User routes')
+  })
+})

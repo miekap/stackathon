@@ -1,34 +1,35 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+import {withRouter, Link} from 'react-router-dom'
+import {generateNight} from '../store'
 
-/**
- * COMPONENT
- */
 export const UserHome = (props) => {
   const {email} = props
 
   return (
     <div>
-      <h3>Welcome, {email}</h3>
+      <h3>Welcome {email}</h3>
+      <p><Link to='#' onClick={props.generateNight}>Create night ID</Link></p>
+      {
+        props.nightId &&
+          <p>{props.nightId}</p>
+      }
     </div>
   )
 }
 
-/**
- * CONTAINER
- */
-const mapState = (state) => {
-  return {
-    email: state.user.email
+const mapState = (state) => (
+  {
+    email: state.user.email,
+    nightId: state.night.eventId
   }
-}
+)
 
-export default connect(mapState)(UserHome)
+const mapDispatch = { generateNight }
 
-/**
- * PROP TYPES
- */
+export default withRouter(connect(mapState, mapDispatch)(UserHome))
+
 UserHome.propTypes = {
   email: PropTypes.string
 }
