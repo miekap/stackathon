@@ -7,7 +7,7 @@ router.get('/', (req, res, next) => {
     .catch(next)
 })
 
-router.post('/', (req, res, next) => {
+router.post('/:nightId/:fanId', (req, res, next) => {
   Fan.create(req.body)
   .then(fan => res.status(201).send(fan))
   .catch(next);

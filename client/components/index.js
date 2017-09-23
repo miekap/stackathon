@@ -1,4 +1,5 @@
 export {default as Main} from './main'
 export {default as ArtistHome} from './artist-home'
-export {default as FanDownload} from './fan-download'
+export {default as Merchtable} from './fan/merchtable'
+export {default as Tonight} from './fan/tonight'
 export {Login, Signup} from './auth-form'

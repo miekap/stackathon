@@ -2,24 +2,18 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Router} from 'react-router'
 import {Route, Switch} from 'react-router-dom'
-import PropTypes from 'prop-types'
 import history from './history'
-import {Login, Signup, ArtistHome, FanDownload} from './components'
-import WebsitePlaceholder from './website-placeholder'
-import Merchtable from './merchtable'
-import {retrieveNight, checkDistance, me} from './store'
-import {getLocation, randomId, getDistance} from './functions'
+import {me} from './store'
+import {ArtistHome, Login, Tonight, FanDownload} from './components'
 
 
 class Routes extends Component {
 
   componentDidMount () {
     this.props.me()
-    this.props.retrieveNight()
   }
 
   render () {
-this.props.distance && console.log(this.props.distance)
     return (
       <Router history={history}>
         <Switch>
@@ -29,13 +23,8 @@ this.props.distance && console.log(this.props.distance)
                 ? ArtistHome
                 : Login
             } />
-          {
-            this.props.night &&
-              ((getDistance(this.props.night.lat, this.props.night.lng) < 2000000) &&
-                <Route exact path='/tonight' component={Merchtable} />)
-          }
-          <Route path='/:night/:fan' component={FanDownload} />
-          <Route component={WebsitePlaceholder} />
+          <Route exact path='/tonight' component={Tonight} />
+          <Route path='/tonight/:night/:fan' component={FanDownload} />
         </Switch>
       </Router>
     )
@@ -44,11 +33,10 @@ this.props.distance && console.log(this.props.distance)
 
 const mapState = (state) => {
   return {
-    isLoggedIn: !!state.artist.id,
-    night: state.night
+    isLoggedIn: !!state.artist.id
   }
 }
 
-const mapDispatch = { me, retrieveNight, checkDistance }
+const mapDispatch = { me }
 
 export default connect(mapState, mapDispatch)(Routes)
