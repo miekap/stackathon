@@ -7,13 +7,13 @@ import {Merchtable} from '../../components'
 
 class Tonight extends Component {
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.loadDistance()
     this.props.loadId()
     this.props.retrieveNight()
   }
 
-  render () {
+  render() {
     return (
       <div>
         {

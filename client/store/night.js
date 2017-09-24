@@ -2,17 +2,21 @@ import axios from 'axios'
 import history from '../history'
 import {getLocation, generateId} from '../functions'
 
+const defaultNight = {
+  randomId: '',
+  lat: null,
+  lng: null,
+  accuracy: null
+}
 
 const CREATE_NIGHT = 'CREATE_NIGHT'
 const GET_NIGHT = 'GET_NIGHT'
 
-const defaultNight = {}
-
 const createNight = night => ({type: CREATE_NIGHT, night})
 const getNight = night => ({type: GET_NIGHT, night})
 
-export const generateNight = () =>
-  dispatch =>
+export const generateNight = () => {
+  return dispatch => {
     getLocation()
     .then(res => res.data)
     .then(res => {
@@ -29,9 +33,11 @@ export const generateNight = () =>
     })
     .catch(error =>
       dispatch(createNight({error})))
+  }
+}
 
-export const retrieveNight = () =>
-  dispatch =>
+export const retrieveNight = () => {
+  return dispatch => {
     axios.get('/api/night')
     .then(res => {
       dispatch(getNight(res.data))
@@ -39,6 +45,8 @@ export const retrieveNight = () =>
     })
     .catch(error =>
       dispatch(getNight({error})))
+  }
+}
 
 export default function (state = defaultNight, action) {
   switch (action.type) {

@@ -35,9 +35,9 @@ export const loadId = () => {
   }
 }
 
-export const createFan = (fanId, nightId, music) => {
+export const persistChoices = (fanId, nightId, music) => {
   return dispatch => {
-    axios.post(`/api/fan`, {
+    axios.post('/api/fan', {
       randomId: fanId,
       nightId,
       music

@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router-dom'
-import {createFan} from '../../store'
+import {persistChoices} from '../../store'
 import fanEmitter from '../../socket/fanEmitter'
 
 const Merchtable = (props) => {
@@ -11,7 +11,7 @@ const Merchtable = (props) => {
     let music = [...event.target.songs]
       .filter(song => song.checked)
       .map(song => song.value)
-    props.createFan(props.fanId, props.nightId, music)
+    props.persistChoices(props.fanId, props.nightId, music)
     fanEmitter.emit('musicChosen', props.fanId, props.nightId, music)
   }
 
@@ -34,6 +34,6 @@ const mapState = (state) => (
   }
 )
 
-const mapDispatch = {createFan}
+const mapDispatch = {persistChoices}
 
 export default withRouter(connect(mapState, mapDispatch)(Merchtable))
