@@ -8,7 +8,7 @@ export function generateId(num) {
   return crypto.randomBytes(num)
     .toString('base64')
     .slice(0, num)
-    .replace(/\+/g, '0')
+    .replace(/\//g, '0')
 }
 
 export function getLocation() {

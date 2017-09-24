@@ -3,12 +3,19 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router-dom'
 import {generateNight, logout} from '../../store'
+import artistEmitter from '../../socket/artistEmitter'
+
 
 export const ArtistHome = (props) => {
+    artistEmitter.on('heresFanChoices', (f,n,m)=>{
+      console.log('fan wants',f,n,m)
+    })
+
   return (
     <div>
       <h1>ADMIN: Physical Digital Merch Table</h1>
       <h3>Welcome {props.email} <Link to='#' onClick={props.logout}>(Logout)</Link></h3>
+
       <p><Link to='#' onClick={props.generateNight}>Create night ID</Link></p>
       {
         props.night &&

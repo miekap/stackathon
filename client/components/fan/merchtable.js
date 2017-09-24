@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router-dom'
 import {createFan} from '../../store'
+import fanEmitter from '../../socket/fanEmitter'
 
 const Merchtable = (props) => {
 
@@ -10,9 +11,9 @@ const Merchtable = (props) => {
     let music = [...event.target.songs]
       .filter(song => song.checked)
       .map(song => song.value)
-      console.log(props.createFan)
     props.createFan(props.fanId, props.nightId, music)
-    }
+    fanEmitter.emit('musicChosen', props.fanId, props.nightId, music)
+  }
 
   return (
     <div>

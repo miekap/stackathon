@@ -1,9 +1,13 @@
 module.exports = (io) => {
   io.on('connection', (socket) => {
-    console.log(`Socket connection to server has been made: ${socket.id}`)
+    console.log(`Socket ${socket.id} has connected`)
+
+    socket.on('serverGetsChoices', (f,n,m)=>{
+      socket.broadcast.emit('artistGetsChoices', f,n,m);
+    });
 
     socket.on('disconnect', () => {
-      console.log(`Connection ${socket.id} has disconnected`)
+      console.log(`Socket ${socket.id} has disconnected`)
     })
   })
 }
