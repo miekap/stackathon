@@ -3,7 +3,7 @@ import history from '../history'
 import {tonightsDistance, generateId} from '../functions'
 
 const defaultFan = {
-  distance: -1,
+  distance: {value: -1, accuracy: -1},
   randomId: '',
   music: []
 }
@@ -18,9 +18,9 @@ const chooseMusic = music => ({type: CHOOSE_MUSIC, music})
 
 export const loadDistance = () => {
   return dispatch => {
-    tonightsDistance()
+    return tonightsDistance()
     .then(distance => {
-      dispatch(getDistance(distance))
+      return dispatch(getDistance(distance))
       history.push(history.location)
     })
     .catch(error =>

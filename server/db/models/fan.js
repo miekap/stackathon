@@ -14,6 +14,10 @@ const Fan = db.define('fan', {
   music: {
     type: Sequelize.ARRAY(Sequelize.STRING)
   },
+  downloadAllowed: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
+  },
   lat: {
     type: Sequelize.DECIMAL
   },
@@ -21,6 +25,9 @@ const Fan = db.define('fan', {
     type: Sequelize.DECIMAL
   },
   accuracy: {
+    type: Sequelize.DECIMAL
+  },
+  distance: {
     type: Sequelize.DECIMAL
   }
 })

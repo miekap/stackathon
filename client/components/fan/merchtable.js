@@ -1,36 +1,44 @@
-import React from 'react'
+import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router-dom'
 import {persistChoices} from '../../store'
 import fanEmitter from '../../socket/fanEmitter'
 
-const Merchtable = (props) => {
+class Merchtable extends Component {
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    let music = [...event.target.songs]
-      .filter(song => song.checked)
-      .map(song => song.value)
-    props.persistChoices(props.fanId, props.nightId, music)
-    fanEmitter.emit('musicChosen', props.fanId, props.nightId, music)
+  componentDidMount() {
+    fanEmitter.on('permissionGranted', (f, n, m) => {
+      this.props.addOrUpdateCustomer(this.props.customers, f, n, m)
+    })
   }
 
-  return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <input type="checkbox" name="songs" value="Song1" defaultChecked="true" />Song 1
-        <input type="checkbox" name="songs" value="Song2" />Song 2
-        <input type="checkbox" name="songs" value="Song3" defaultChecked="true" />Song 3
-        <input type="checkbox" name="songs" value="Song4" />Song 4
-        <button type="submit" to="#">request music</button>
-      </form>
-    </div>
-  )
+  render() {
+    return (
+      <div>
+        <form onSubmit={(event) => this.props.handleSubmit(event, this.props.persistChoices, this.props.fanId, this.props.nightId)}>
+          <input type="checkbox" name="songs" value="Song1" defaultChecked="true" />Song 1
+          <input type="checkbox" name="songs" value="Song2" />Song 2
+          <input type="checkbox" name="songs" value="Song3" defaultChecked="true" />Song 3
+          <input type="checkbox" name="songs" value="Song4" />Song 4
+          <button type="submit" to="#">request music</button>
+        </form>
+      </div>
+    )
+  }
 }
 
 const mapState = (state) => (
   {
-    music: state.fan.music
+    music: state.fan.music,
+    handleSubmit: (event, func, fanId, nightId) => {
+      event.preventDefault();
+      let music = [...event.target.songs]
+        .filter(song => song.checked)
+        .map(song => song.value)
+      func(fanId, nightId, music)
+      fanEmitter.emit('musicChosen', fanId, nightId, music)
+    }
+
   }
 )
 

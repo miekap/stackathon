@@ -16,4 +16,19 @@ router.post('/', (req, res, next) => {
   .catch(next);
 })
 
+router.put('/end', (req, res, next) => {
+  return Night.findOne({
+    where: {
+      nightId: req.body.nightId
+    }
+  })
+  .then(night => {
+    return night.update({
+      active: false
+    })
+  })
+  .then(night => res.status(201).send(night))
+  .catch(next);
+})
+
 module.exports = router

@@ -32,5 +32,9 @@ export function getDistance(nightLat, nightLng, nightAccuracy) {
 export function tonightsDistance() {
   return axios.get('/api/night')
   .then(res => res.data)
-  .then(res => getDistance(res.lat, res.lng, res.accuracy))
+  .then(res => {
+    return res
+     ? getDistance(res.lat, res.lng, res.accuracy)
+     : {value: -1, accuracy: -1}
+  })
 }

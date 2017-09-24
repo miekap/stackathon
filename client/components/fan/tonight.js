@@ -9,18 +9,25 @@ class Tonight extends Component {
 
   componentDidMount() {
     this.props.loadDistance()
-    this.props.loadId()
+    .then(res =>
+      (res.distance.value == -1 || res.distance.value > 4828 + res.distance.accuracy)
+        && window.location.replace(document.URL.replace(this.props.location.pathname, ''))
+    )
     this.props.retrieveNight()
-  }
+      .then(res =>
+        (!res.night.active)
+          && window.location.replace(document.URL.replace(this.props.location.pathname, ''))
+      )
+    this.props.loadId()
+    }
 
   render() {
+
     return (
       <div>
         {
-          (this.props.fan && this.props.fan.distance != -1) &&
-            (this.props.fan.distance.value > 4828 + this.props.fan.distance.accuracy)
-              ? history.push('/')
-              : <Merchtable fanId={this.props.fan.randomId} nightId={this.props.night.randomId} />
+          this.props.fan &&
+            <Merchtable fanId={this.props.fan.randomId} nightId={this.props.night.randomId} />
         }
       </div>
     )
@@ -29,8 +36,7 @@ class Tonight extends Component {
 
 const mapState = (state) => (
   {
-    fan: state.fan,
-    night: state.night
+
   }
 )
 

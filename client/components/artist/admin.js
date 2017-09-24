@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router-dom'
-import {retrieveNight, loadCustomers, addOrUpdateCustomer, generateNight, logout} from '../../store'
+import {retrieveNight, generateNight, endNight, loadCustomers, addOrUpdateCustomer, logout} from '../../store'
 import artistEmitter from '../../socket/artistEmitter'
 
 
@@ -26,6 +26,14 @@ class Admin extends Component {
           this.props.night &&
             <p>randomId: {this.props.night.randomId}, lat: {this.props.night.lat}, lng: {this.props.night.lng}, accuracy: {this.props.night.accuracy}</p>
         }
+        {
+          this.props.customers &&
+            this.props.customers.map(customer =>
+            <p key={customer.randomId}>nightId: {customer.nightId}<br />customerId: {customer.randomId}<br />
+            music: {customer.music.join(', ')}
+            </p>
+            )
+        }
       </div>
     )
   }
@@ -39,6 +47,6 @@ const mapState = (state) => (
   }
 )
 
-const mapDispatch = { retrieveNight, loadCustomers, addOrUpdateCustomer, logout, generateNight }
+const mapDispatch = { retrieveNight, generateNight, endNight, loadCustomers, addOrUpdateCustomer, logout }
 
 export default withRouter(connect(mapState, mapDispatch)(Admin))

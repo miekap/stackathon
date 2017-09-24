@@ -15,6 +15,10 @@ const Night = db.define('night', {
   },
   accuracy: {
     type: Sequelize.DECIMAL
+  },
+  active: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: true
   }
 })
 
