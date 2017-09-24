@@ -7,6 +7,13 @@ const Fan = db.define('fan', {
     unique: true,
     allowNull: false
   },
+  nightId: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  music: {
+    type: Sequelize.ARRAY(Sequelize.STRING)
+  },
   lat: {
     type: Sequelize.DECIMAL
   },

@@ -4,7 +4,7 @@ import {Router} from 'react-router'
 import {Route, Switch} from 'react-router-dom'
 import history from './history'
 import {me} from './store'
-import {ArtistHome, Login, Tonight, FanDownload} from './components'
+import {Admin, Login, Tonight} from './components'
 
 
 class Routes extends Component {
@@ -20,11 +20,11 @@ class Routes extends Component {
           <Route exact path='/admin' component=
             {
               this.props.isLoggedIn
-                ? ArtistHome
+                ? Admin
                 : Login
             } />
           <Route exact path='/tonight' component={Tonight} />
-          <Route path='/tonight/:night/:fan' component={FanDownload} />
+          <Route path='/tonight/:night/:fan' component={Tonight} />
         </Switch>
       </Router>
     )

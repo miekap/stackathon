@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router-dom'
 import history from '../../history'
 import {loadDistance, loadId, retrieveNight} from '../../store'
-import {Merchtable} from './merchtable'
+import {Merchtable} from '../../components'
 
 class Tonight extends Component {
 
