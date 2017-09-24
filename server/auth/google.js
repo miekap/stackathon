@@ -16,11 +16,13 @@ const strategy = new GoogleStrategy(googleConfig, (token, refreshToken, profile,
   const email = profile.emails[0].value
 
   Artist.find({where: {googleId}})
-    .then(artist => artist
-      ? done(null, artist)
-      : Artist.create({name, email, googleId})
-        .then(artist => done(null, artist))
-    )
+    .then(artist => {
+      artist
+        ? done(null, artist)
+        : Artist.create({name, email, googleId})
+          .then(newArtist => done(null, newArtist))
+      return null
+    })
     .catch(done)
 })
 
