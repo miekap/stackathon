@@ -4,6 +4,7 @@ import {withRouter, Link} from 'react-router-dom'
 import $ from 'jQuery'
 import {persistChoices, allowDownload, loadMusic} from '../../store'
 import fanEmitter from '../../socket/fanEmitter'
+import {bookmarkMe} from '../../functions'
 
 class Merchtable extends Component {
 
@@ -42,6 +43,11 @@ class Merchtable extends Component {
                   </Link>
                 </div>
               )}
+              <div>
+                <Link to="#" onClick={() => window.open(`mailto:-->YOUR@EMAIL.COM?subject=downloads&body=${document.URL}`)}>email yourself this page</Link><br />
+                <Link to="#" onClick={bookmarkMe}>bookmark this page
+                </Link>
+              </div>
             </div>
         }
       </div>
