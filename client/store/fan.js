@@ -6,18 +6,21 @@ const defaultFan = {
   distance: {value: -1, accuracy: -1},
   randomId: '',
   music: [],
-  downloadAllowed: false
+  downloadAllowed: false,
+  downloads: -1
 }
 
 const GET_DISTANCE = 'GET_DISTANCE'
 const ASSIGN_ID = 'ASSIGN_ID'
 const CHOOSE_MUSIC = 'CHOOSE_MUSIC'
 const CAN_DOWNLOAD = 'CAN_DOWNLOAD'
+const GET_MUSIC = 'GET_MUSIC'
 
 const getDistance = distance => ({type: GET_DISTANCE, distance})
 const assignId = randomId => ({type: ASSIGN_ID, randomId})
 const chooseMusic = music => ({type: CHOOSE_MUSIC, music})
 const canDownload = () => ({type: CAN_DOWNLOAD})
+const getMusic = fan => ({type: GET_MUSIC, fan})
 
 export const loadDistance = () => {
   return dispatch => {
@@ -26,8 +29,7 @@ export const loadDistance = () => {
       return dispatch(getDistance(distance))
       history.push(history.location)
     })
-    .catch(error =>
-      dispatch(getDistance({error})))
+    .catch(error => dispatch(getDistance({error})))
   }
 }
 
@@ -49,11 +51,25 @@ export const persistChoices = (fanId, nightId, music) => {
   }
 }
 
-export const allowDownload = (fanId) => {
+export const allowDownload = (nightId, fanId) => {
   return dispatch => {
+    history.push(`/tonight/${nightId}/${fanId}`)
     dispatch(canDownload())
   }
 }
+
+export const loadMusic = (nightId, fanId) => {
+  return dispatch => {
+    return axios.post('/api/fan/music', {
+      nightId, fanId
+    })
+    .then(res =>
+      res && dispatch(getMusic(res.data))
+    )
+    .catch(error => dispatch(getMusic({error})))
+  }
+}
+
 
 export default function (state = defaultFan, action) {
   switch (action.type) {
@@ -65,6 +81,8 @@ export default function (state = defaultFan, action) {
       return Object.assign({}, state, {music: action.music})
     case CAN_DOWNLOAD:
       return Object.assign({}, state, {downloadAllowed: true})
+    case GET_MUSIC:
+      return action.fan
     default:
       return state
   }

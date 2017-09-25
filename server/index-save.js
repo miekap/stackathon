@@ -14,10 +14,14 @@ module.exports = app
 
 if (process.env.NODE_ENV !== 'production') require('../secrets')
 
-app.use(express.static(path.join(__dirname, '..', 'public')))
-
-app.use('/admin', require('./admin'))
-app.use('/tonight', require('./tonight'))
+passport.serializeUser((user, done) => done(null, user.id))
+passport.deserializeUser((id, done) =>
+  db.models.artist.findById(id)
+    .then(user => {
+      done(null, user)
+      return null
+    })
+    .catch(done))
 
 const createApp = () => {
 
@@ -38,8 +42,14 @@ const createApp = () => {
   app.use('/auth', require('./auth'))
   app.use('/api', require('./api'))
 
+  app.use(express.static(path.join(__dirname, '..', 'public')))
+
   app.use('/tonight', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public/fan/index.html'))
+  })
+
+  app.use('/admin', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'public/artist/index.html'))
   })
 
   app.use('*', (req, res) => {

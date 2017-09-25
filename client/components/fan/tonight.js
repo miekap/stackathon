@@ -8,24 +8,27 @@ import {Merchtable} from '../../components'
 class Tonight extends Component {
 
   componentDidMount() {
-    this.props.loadDistance()
-    .then(res =>
-      (res.distance.value == -1 || res.distance.value > 4828 + res.distance.accuracy)
-        && window.location.replace(document.URL.replace(this.props.location.pathname, ''))
-    )
-    this.props.retrieveNight()
+    !this.props.match.params.fanId &&
+      this.props.loadDistance()
       .then(res =>
-        (!res.night.active)
+        (res.distance.value == -1 || res.distance.value > 4828 + res.distance.accuracy)
           && window.location.replace(document.URL.replace(this.props.location.pathname, ''))
       )
-    this.props.loadId()
-    }
+    !this.props.match.params.fanId &&
+      this.props.retrieveNight()
+        .then(res =>
+          (!res.night.active)
+            && window.location.replace(document.URL.replace(this.props.location.pathname, ''))
+        )
+    !this.props.match.params.fanId &&
+      this.props.loadId()
+  }
 
   render() {
 
     return (
       <div>
-        <Merchtable fanId={this.props.fan.randomId} nightId={this.props.night.randomId} />
+        <Merchtable fan={this.props.fan || {randomId: this.props.match.params.fanId}} night={this.props.night || {randomId: this.props.match.params.nightId}} />
       </div>
     )
   }

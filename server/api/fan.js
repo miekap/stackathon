@@ -29,12 +29,39 @@ router.post('/', (req, res, next) => {
   .catch(next);
 })
 
+router.post('/music', (req, res, next) => {
+  return Fan.findOne({
+    where: {
+      nightId: req.body.nightId,
+      randomId: req.body.fanId
+    }
+  })
+  .then(fan =>
+    fan
+      ? res.send(fan.dataValues)
+      : res.send(null)
+    )
+  .catch(next)
+})
+
+router.put('/downloads', (req, res, next) => {
+  return Fan.findOne({
+    where: req.body
+  })
+  .then(fan => {
+    return fan.update({
+      downloads: fan.dataValues.downloads + 1
+    })
+  })
+  .then(fan => res.send(fan.dataValues))
+  .catch(next);
+})
+
 router.put('/allow', (req, res, next) => {
   return Fan.findOne({
     where: req.body
   })
   .then(fan => {
-    console.log('db fan: ', fan)
     return fan.update({
       downloadAllowed: true
     })

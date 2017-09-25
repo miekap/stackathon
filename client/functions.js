@@ -38,3 +38,9 @@ export function tonightsDistance() {
      : {value: -1, accuracy: -1}
   })
 }
+
+export function checkAndUpdateDownloads(fanId) {
+  let fan = {randomId: fanId}
+  return axios.put('/api/fan/downloads', fan)
+  .then(res => res.data.downloads)
+}

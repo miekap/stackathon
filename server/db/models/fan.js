@@ -18,6 +18,10 @@ const Fan = db.define('fan', {
     type: Sequelize.BOOLEAN,
     defaultValue: false
   },
+  downloads: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
+  },
   lat: {
     type: Sequelize.DECIMAL
   },

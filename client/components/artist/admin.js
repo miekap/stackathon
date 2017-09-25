@@ -21,8 +21,7 @@ class Admin extends Component {
         <h1>ADMIN: Physical Digital Merch Table</h1>
         <h3>Welcome {this.props.email} <Link to='#' onClick={this.props.logout}>(Logout)</Link></h3>
 
-        <p><Link to='#' onClick={this.props.generateNight}>Create night ID</Link><br />
-        <Link to='#' onClick={this.props.endNight}>Close night</Link></p>
+        <p><Link to='#' onClick={this.props.generateNight}>Create night ID</Link></p>
         {
           this.props.night &&
             <p>randomId: {this.props.night.randomId}, lat: {this.props.night.lat}, lng: {this.props.night.lng}, accuracy: {this.props.night.accuracy}</p>

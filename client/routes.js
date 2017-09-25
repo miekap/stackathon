@@ -24,7 +24,7 @@ class Routes extends Component {
                 : Login
             } />
           <Route exact path='/tonight' component={Tonight} />
-          <Route path='/tonight/:night/:fan' component={Tonight} />
+          <Route path='/tonight/:nightId/:fanId' component={Tonight} />
         </Switch>
       </Router>
     )
