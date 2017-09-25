@@ -12,7 +12,7 @@ const Fan = db.define('fan', {
     allowNull: false
   },
   music: {
-    type: Sequelize.ARRAY(Sequelize.STRING)
+    type: Sequelize.ARRAY(Sequelize.JSON)
   },
   downloadAllowed: {
     type: Sequelize.BOOLEAN,

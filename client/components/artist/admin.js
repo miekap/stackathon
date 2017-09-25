@@ -35,7 +35,8 @@ class Admin extends Component {
                 <br />
                 customerId: {customer.randomId}
                 <br />
-                music: {customer.music.join(', ')}
+                music: {customer.music.map(song =>
+                  decodeURI(song.mp3).slice(0,-4)).join(', ')}
                 <br />
 
                 {
