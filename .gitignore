@@ -7,3 +7,4 @@ client/secrets
 npm-debug.log
 yarn-error.log
 testing-css.html
+yarn.lock
