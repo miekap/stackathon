@@ -25,7 +25,9 @@ export const loadCustomers = () => {
     axios.get('/api/night')
     .then(res => res.data)
     .then(night => {
-      return axios.get(`/api/fan/${night.randomId}`)
+      return (!night.active)
+        ? {data: []}
+        : axios.get(`/api/fan/${night.randomId}`)
     })
     .then(res => res.data)
     .then(customers => {

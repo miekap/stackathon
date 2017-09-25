@@ -17,17 +17,24 @@ class Admin extends Component {
 
   render() {
     return (
-      <div>
-        <h1>Get That Cash</h1>
+      <div className="row">
+      <div className="align-center col-sm-12 col-md-12 col-lg-12">
+        <h1 className="align-center">Get That Cash</h1>
         <h3>Welcome {this.props.email} <Link to='#' onClick={this.props.logout}>(Logout)</Link></h3>
 
-        <p><Link to='#' onClick={this.props.generateNight}>Create night ID</Link></p>
+        <p><Link to='#' onClick={this.props.generateNight}>Create night</Link></p>
         {
-          this.props.night &&
-            <p>randomId: {this.props.night.randomId}, lat: {this.props.night.lat}, lng: {this.props.night.lng}, accuracy: {this.props.night.accuracy}</p>
+          this.props.night.active && (
+            <p><Link to='#' onClick={() => this.props.endNight(this.props.night.randomId)}>Close night</Link></p>
+          )
         }
         {
-          this.props.customers &&
+          this.props.night.active && (
+            <p>randomId: {this.props.night.randomId}, lat: {this.props.night.lat}, lng: {this.props.night.lng}, accuracy: {this.props.night.accuracy}</p>
+          )
+        }
+        {
+          this.props.customers.length && (
             this.props.customers.map(customer =>
               <p
                 key={customer.randomId}>
@@ -52,7 +59,9 @@ class Admin extends Component {
                 }
               </p>
             )
+          )
         }
+      </div>
       </div>
     )
   }

@@ -18,15 +18,13 @@ router.post('/', (req, res, next) => {
 
 router.put('/end', (req, res, next) => {
   return Night.findOne({
-    where: {
-      nightId: req.body.nightId
-    }
+    where: req.body
   })
-  .then(night => {
-    return night.update({
+  .then(night =>
+    night.update({
       active: false
     })
-  })
+  )
   .then(night => res.status(201).send(night))
   .catch(next);
 })

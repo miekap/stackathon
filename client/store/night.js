@@ -43,9 +43,9 @@ export const retrieveNight = () => {
   return dispatch => {
     return axios.get('/api/night')
     .then(res => {
-      return res
-      ? dispatch(getNight(res.data))
-      : dispatch(getNight(defaultNight))
+      return (!res.data.active)
+      ? dispatch(getNight(defaultNight))
+      : dispatch(getNight(res.data))
     })
     .catch(error =>
       dispatch(getNight({error})))
@@ -53,8 +53,9 @@ export const retrieveNight = () => {
 }
 
 export const endNight = (nightId) => {
+  let night = {randomId: nightId}
   return dispatch => {
-    axios.put('/api/night/end', nightId)
+    axios.put('/api/night/end', night)
     .then(() => {
       dispatch(deactivateNight())
     })
