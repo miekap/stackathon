@@ -27,7 +27,8 @@ class Tonight extends Component {
   render() {
 
     return (
-      <div>
+      <div className="row">
+        <h1 className="align-center">Get That Music</h1>
         <Merchtable fan={this.props.fan || {randomId: this.props.match.params.fanId}} night={this.props.night || {randomId: this.props.match.params.nightId}} />
       </div>
     )

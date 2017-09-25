@@ -1,21 +1,64 @@
+@import '/css/bootstrap.min.css';
+
 body {
   font-family: sans-serif;
-
-  a {
-    text-decoration: none;
-  }
-
-  label {
-    display: block;
-  }
-
-  nav a {
-    display: inline-block;
-    margin: 1em;
-  }
-
-  form div {
-    margin: 1em;
-    display: inline-block;
-  }
+  background-color: #000000;
+  color: #999999;
+  font-size: 2em;
+}
+h1 {
+  color: #816B62;
+  text-transform: lowercase;
+  letter-spacing: .25em;
+  font-weight: normal;
+  transform:scale(1,.85);
+  -webkit-transform:scale(1,.85);
+  background: #251D1A
+}
+a, a:visited {
+  font-weight: bold;
+  text-decoration: none;
+  color: #DD8965;
+}
+a:active, a:hover {
+  text-decoration: underline;
+  color: #DD8965;
+}
+button, .btn {
+  background-color: #000000;
+  border: 1px solid #DD8965;
+  margin: 0.25em;
+  border-radius: 0;
+  color: #999999;
+}
+button:hover, .btn:hover {
+  background-color: #222222;
+  border: 1px solid #BB6743;
+  color: #BB6743;
+}
+.shrink {
+  display: inline-block;
+}
+.align-center {
+  text-align: center;
+}
+.align-left {
+  text-align: left;
+}
+.align-right {
+  text-align: right;
+}
+.form-check-label {
+  font-weight: normal;
+}
+table {
+  font-size: 1em;
+  margin: 2em auto;
+}
+a.btn {
+  font-size: 1em;
+  color: #999999;
+}
+a.btn:hover {
+  color: #BB6743;
 }

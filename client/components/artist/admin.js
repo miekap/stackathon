@@ -18,7 +18,7 @@ class Admin extends Component {
   render() {
     return (
       <div>
-        <h1>ADMIN: Physical Digital Merch Table</h1>
+        <h1>Get That Cash</h1>
         <h3>Welcome {this.props.email} <Link to='#' onClick={this.props.logout}>(Logout)</Link></h3>
 
         <p><Link to='#' onClick={this.props.generateNight}>Create night ID</Link></p>

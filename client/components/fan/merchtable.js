@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router-dom'
-import $ from 'jQuery'
 import {persistChoices, allowDownload, loadMusic} from '../../store'
 import fanEmitter from '../../socket/fanEmitter'
 import {bookmarkMe} from '../../functions'
@@ -20,31 +19,44 @@ class Merchtable extends Component {
   }
 
   render() {
+
     return (
-      <div>
+      <div className="form-check align-center col-sm-12 col-md-12 col-lg-12">
         {(!this.props.fan.downloadAllowed || (!this.props.match.params.nightId && !this.props.match.params.fanId))
-          ? <div>
+          ? <div className="form-check">
               <form onSubmit={(event) => this.props.handleSubmit(event, this.props.persistChoices, this.props.fan.randomId, this.props.night.randomId)}>
-                <input type="checkbox" name="songs" value="Come%20Alive.mp3" defaultChecked="true" />Come Alive<br />
-                <input type="checkbox" name="songs" value="Monsters.mp3" />Monsters<br />
-                <input type="checkbox" name="songs" value="Lush.mp3" defaultChecked="true" />Lush<br />
+              <div className="form-check-label">
+                <label className="form-check-label">
+                &nbsp;<input type="checkbox" name="songs" value="Come%20Alive.mp3" defaultChecked="true" /> Come Alive</label><br />
+                <label className="form-check-label">
+                &nbsp;<input type="checkbox" name="songs" value="Monsters.mp3" /> Monsters</label><br />
+                <label className="form-check-label">
+                &nbsp;<input type="checkbox" name="songs" value="Lush.mp3" defaultChecked="true" /> Lush</label><br />
+              </div>
+              <div>
                 <button id="requestMusic" type="submit" to="#">request music</button>
+              </div>
               </form>
             </div>
 
-          : <div>
+          : <div className="align-center col-sm-12 col-md-12 col-lg-12">
+            <table><tbody>
               {this.props.music.map((song, index) =>
-                <div key={song.mp3}>{decodeURI(song.mp3).slice(0,-4)}:&nbsp;
-                  <Link to="#" onClick=
+                <tr key={song.mp3}>
+                  <td className="align-right">{decodeURI(song.mp3).slice(0,-4)}:&nbsp;</td>
+                  <td className="align-left">&nbsp;<Link to="#" onClick=
                     {() =>
                       this.props.handleClick(this.props.match.params.nightId, this.props.match.params.fanId, song)
                     }>
                     open/download
-                  </Link>
-                </div>
+                  </Link></td>
+                </tr>
               )}
+              </tbody></table>
               <div>
-                <Link to="#" onClick={() => window.open(`mailto:-->YOUR@EMAIL.COM?subject=downloads&body=${document.URL}`)}>email yourself this page</Link><br />
+                <Link to="#" onClick={() => window.open(`mailto:-->YOUR@EMAIL.COM?subject=downloads&body=${document.URL}`)}>email yourself this page</Link>
+              </div>
+              <div>
                 <Link to="#" onClick={bookmarkMe}>bookmark this page
                 </Link>
               </div>
