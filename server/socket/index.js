@@ -6,6 +6,10 @@ module.exports = (io) => {
       socket.broadcast.emit('artistGetsChoices', f,n,m);
     });
 
+    socket.on('serverPassAuthPlease', (fanId)=>{
+      socket.broadcast.emit('hereIsAuth', fanId);
+    });
+
     socket.on('disconnect', () => {
       console.log(`Socket ${socket.id} has disconnected`)
     })

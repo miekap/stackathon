@@ -5,16 +5,19 @@ import {tonightsDistance, generateId} from '../functions'
 const defaultFan = {
   distance: {value: -1, accuracy: -1},
   randomId: '',
-  music: []
+  music: [],
+  downloadAllowed: false
 }
 
 const GET_DISTANCE = 'GET_DISTANCE'
 const ASSIGN_ID = 'ASSIGN_ID'
 const CHOOSE_MUSIC = 'CHOOSE_MUSIC'
+const CAN_DOWNLOAD = 'CAN_DOWNLOAD'
 
 const getDistance = distance => ({type: GET_DISTANCE, distance})
 const assignId = randomId => ({type: ASSIGN_ID, randomId})
 const chooseMusic = music => ({type: CHOOSE_MUSIC, music})
+const canDownload = () => ({type: CAN_DOWNLOAD})
 
 export const loadDistance = () => {
   return dispatch => {
@@ -43,7 +46,12 @@ export const persistChoices = (fanId, nightId, music) => {
       music
     })
     dispatch(chooseMusic(music))
-    history.push(history.location)
+  }
+}
+
+export const allowDownload = (fanId) => {
+  return dispatch => {
+    dispatch(canDownload())
   }
 }
 
@@ -55,6 +63,8 @@ export default function (state = defaultFan, action) {
       return Object.assign({}, state, {randomId: action.randomId})
     case CHOOSE_MUSIC:
       return Object.assign({}, state, {music: action.music})
+    case CAN_DOWNLOAD:
+      return Object.assign({}, state, {downloadAllowed: true})
     default:
       return state
   }

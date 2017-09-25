@@ -33,7 +33,6 @@ export const generateNight = () => {
     })
     .then(res => {
       dispatch(createNight(res.data))
-      history.push(history.location)
     })
     .catch(error =>
       dispatch(createNight({error})))
@@ -47,7 +46,6 @@ export const retrieveNight = () => {
       return res
       ? dispatch(getNight(res.data))
       : dispatch(getNight(defaultNight))
-      history.push(history.location)
     })
     .catch(error =>
       dispatch(getNight({error})))
@@ -59,7 +57,6 @@ export const endNight = (nightId) => {
     axios.put('/api/night/end', nightId)
     .then(() => {
       dispatch(deactivateNight())
-      history.push(history.location)
     })
     .catch(error =>
       dispatch(deactivateNight({error})))

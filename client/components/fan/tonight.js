@@ -25,10 +25,7 @@ class Tonight extends Component {
 
     return (
       <div>
-        {
-          this.props.fan &&
-            <Merchtable fanId={this.props.fan.randomId} nightId={this.props.night.randomId} />
-        }
+        <Merchtable fanId={this.props.fan.randomId} nightId={this.props.night.randomId} />
       </div>
     )
   }
@@ -36,7 +33,8 @@ class Tonight extends Component {
 
 const mapState = (state) => (
   {
-
+    fan: state.fan,
+    night: state.night
   }
 )
 

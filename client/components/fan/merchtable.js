@@ -1,14 +1,14 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router-dom'
-import {persistChoices} from '../../store'
+import {persistChoices, allowDownload} from '../../store'
 import fanEmitter from '../../socket/fanEmitter'
 
 class Merchtable extends Component {
 
   componentDidMount() {
-    fanEmitter.on('permissionGranted', (f, n, m) => {
-      this.props.addOrUpdateCustomer(this.props.customers, f, n, m)
+    fanEmitter.on('permissionGranted', (fanId) => { (this.props.fanId == fanId) &&
+      this.props.allowDownload(fanId)
     })
   }
 
@@ -30,6 +30,7 @@ class Merchtable extends Component {
 const mapState = (state) => (
   {
     music: state.fan.music,
+
     handleSubmit: (event, func, fanId, nightId) => {
       event.preventDefault();
       let music = [...event.target.songs]
@@ -42,6 +43,6 @@ const mapState = (state) => (
   }
 )
 
-const mapDispatch = {persistChoices}
+const mapDispatch = { persistChoices, allowDownload }
 
 export default withRouter(connect(mapState, mapDispatch)(Merchtable))

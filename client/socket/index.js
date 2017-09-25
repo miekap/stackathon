@@ -10,14 +10,18 @@ socket.on('connect', () => {
 
 fanEmitter.on('musicChosen', (f,n,m) => {
   socket.emit('serverGetsChoices', f,n,m)
-});
+})
 
 socket.on('artistGetsChoices', (f,n,m) => {
   artistEmitter.emit('heresFanChoices',f,n,m)
 })
 
-artistEmitter.on('authDownload', (f,n,m) => {
-  socket.emit('fanGetsMusic', f,n,m);
-});
+artistEmitter.on('authDownload', fanId => {
+  socket.emit('serverPassAuthPlease', fanId)
+})
+
+socket.on('hereIsAuth', fanId => {
+  fanEmitter.emit('permissionGranted', fanId)
+})
 
 export default socket

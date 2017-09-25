@@ -1,12 +1,6 @@
 const router = require('express').Router()
 const {Fan} = require('../db/models')
 
-// router.get('/', (req, res, next) => {
-//   Fan.findAll()
-//     .then(fans => res.json(fans))
-//     .catch(next)
-// })
-
 router.get('/:nightId', (req, res, next) => {
   Fan.findAll({
     where: {
@@ -34,5 +28,20 @@ router.post('/', (req, res, next) => {
   .then(fan => res.status(201).send(fan))
   .catch(next);
 })
+
+router.put('/allow', (req, res, next) => {
+  return Fan.findOne({
+    where: req.body
+  })
+  .then(fan => {
+    console.log('db fan: ', fan)
+    return fan.update({
+      downloadAllowed: true
+    })
+  })
+  .then(fan => res.status(201).send(fan))
+  .catch(next);
+})
+
 
 module.exports = router
